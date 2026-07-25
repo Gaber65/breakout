@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ar" data-theme="dark" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="كافيه بريك أوت بني سويف — اهرُب من الروتين، وانطلق معنا. تجربة قهوة فاخرة." />
+  <title>بريك أوت كافيه | Break Out Cafe</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;600;700;800&family=Cairo:wght@300;400;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="assets/css/responsive.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/zuramai/mazer@docs/demo/assets/compiled/css/iconly.css" />
+
+  <style>
+    /* Page-level layout fix */
+    html, body { scroll-behavior: smooth; }
+
+    /* Light theme form inputs */
+    [data-theme="light"] .form-group input,
+    [data-theme="light"] .form-group select,
+    [data-theme="light"] .newsletter-input {
+      color: #1a1a1a;
+      background: rgba(111,78,55,0.06);
+      border-color: rgba(111,78,55,0.2);
+    }
+
+    [data-theme="light"] .form-group select option { background: #fff; color: #1a1a1a; }
+  </style>
+</head>
+<body>
+
+<!-- ─── CUSTOM CURSOR ─────────────────────── -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ─── SCROLL PROGRESS ─────────────────── -->
+<div id="scrollProgress"></div>
+
+<!-- ─── SPLASH SCREEN ───────────────────── -->
+<div id="splash">
+  <div class="splash-cup">
+    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Cup body -->
+      <path d="M10 28 L14 72 Q14 76 18 76 L62 76 Q66 76 66 72 L70 28 Z" fill="#3E2723" stroke="#6F4E37" stroke-width="1.5"/>
+      <!-- Cup rim -->
+      <rect x="8" y="22" width="64" height="8" rx="4" fill="#6F4E37"/>
+      <!-- Coffee fill -->
+      <clipPath id="cupClip">
+        <path d="M12 30 L16 72 Q16 74 18 74 L62 74 Q64 74 64 72 L68 30 Z"/>
+      </clipPath>
+      <rect class="cup-fill" x="12" y="36" width="56" height="36" fill="#D4A373" clip-path="url(#cupClip)"/>
+      <!-- Handle -->
+      <path d="M66 36 Q84 36 84 52 Q84 68 66 68" stroke="#6F4E37" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <!-- Steam -->
+      <path class="steam-line" d="M28 18 Q32 10 28 2" stroke="#D4A373" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path class="steam-line" d="M40 18 Q44 10 40 2" stroke="#D4A373" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path class="steam-line" d="M52 18 Q56 10 52 2" stroke="#D4A373" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div class="splash-logo">BREAK OUT</div>
+  <div class="splash-tagline">Escape The Routine</div>
+  <div class="splash-progress"><div class="splash-progress-bar"></div></div>
+</div>
+
+<!-- ─── NAVBAR ─────────────────────────────── -->
+<nav id="navbar">
+  <a href="#home" class="nav-logo">BREAK OUT</a>
+
+  <ul class="nav-links">
+    <li><a href="#home" data-i18n="nav_home">الرئيسية</a></li>
+    <li><a href="#menu" data-i18n="nav_menu">المنيو</a></li>
+  </ul>
+
+  <div class="nav-right">
+    <button onclick="openCart()" class="cart-btn" id="cartBtnNav" aria-label="عرض السلة" style="position:relative;background:none;border:none;color:var(--gold);font-size:20px;cursor:pointer;display:flex;align-items:center;padding:8px;margin-right:10px;">
+      <i class="iconly-boldBuy"></i>
+      <span id="cartCount" style="position:absolute;top:-4px;right:-4px;background:var(--gold);color:var(--bg-primary);font-size:10px;font-weight:bold;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">0</span>
+    </button>
+    <button class="hamburger" aria-label="القائمة">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ─── MOBILE NAV ─────────────────────────── -->
+<div class="mobile-nav">
+  <a href="#home" data-i18n="nav_home">الرئيسية</a>
+  <a href="#menu" data-i18n="nav_menu">المنيو</a>
+  <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap;justify-content:center;align-items:center;">
+    <button onclick="openCart()" class="mobile-cart-btn" style="background:none;border:1.5px solid var(--gold);color:var(--gold);padding:12px 28px;border-radius:50px;font-size:15px;font-family:'Poppins','Cairo',sans-serif;cursor:pointer;position:relative;display:flex;align-items:center;gap:8px;">
+      <i class="iconly-boldBuy"></i>
+      <span data-i18n="cart_title_drawer">سلة الطلبات</span>
+      <span id="cartCountMobile" style="background:var(--gold);color:var(--bg-primary);font-size:11px;font-weight:bold;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;">0</span>
+    </button>
+  </div>
+</div>
+
+<!-- ─── HERO ────────────────────────────────── -->
+<section id="home" data-section="home" style="position:relative;height:100vh;min-height:700px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+  <canvas id="heroCanvas" class="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content" style="position:relative;z-index:2;text-align:center;max-width:900px;padding:0 20px;transition:transform 0.1s ease;">
+    <div class="hero-eyebrow">
+      <span></span>
+      <span data-i18n="hero_eyebrow">تجربة قهوة مختارة وفاخرة</span>
+      <span></span>
+    </div>
+    <h1 style="font-size:clamp(72px,12vw,160px);font-weight:800;line-height:0.9;letter-spacing:-0.02em;background:linear-gradient(135deg,#fff 30%,#D4A373 70%,#F5E6CA 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;opacity:0;animation:fadeUp 1s ease 0.5s forwards;margin-bottom:20px;">BREAK OUT</h1>
+    <p class="hero-sub" data-i18n="hero_sub">اهرُب من الروتين اليومي، وانطلق معنا.</p>
+    <div class="hero-buttons">
+      <a href="#menu" class="btn-primary" data-i18n="hero_explore">☕ استكشف المنيو</a>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+    <span class="scroll-text" data-i18n="scroll_text">تمرير الأسفل</span>
+  </div>
+</section>
+
+<!-- ─── MENU (SPACCA STYLE) ──────────────────── -->
+<section class="section" id="menu" data-section="menu" style="background:var(--bg-secondary);">
+  <div class="section-header">
+    <span class="section-eyebrow reveal" data-i18n="menu_eyebrow">مذاق وصنعة سباكا الأصيلة</span>
+    <h2 class="section-title reveal" data-i18n="menu_title">قائمة طعامنا</h2>
+    <p class="section-subtitle reveal reveal-delay-1" data-i18n="menu_subtitle">قهوة مختصة، فرابيه مصنوع يدويًا، مخبوزات إيطالية وحلويات فاخرة.</p>
+  </div>
+
+  <!-- SPACCA CONTROLS TOOLBAR -->
+  <div class="spacca-toolbar reveal reveal-delay-1">
+    <!-- Live Search -->
+    <div class="spacca-search-box">
+      <span class="spacca-search-icon">🔍</span>
+      <input type="text" id="menuSearchInput" placeholder="ابحث عن القهوة، المشروبات، أو الحلويات..." aria-label="ابحث في قائمة الطعام" data-i18n-placeholder="search_placeholder" />
+      <button id="menuSearchClear" class="spacca-search-clear" style="display:none;" aria-label="مسح البحث">&times;</button>
+    </div>
+
+    <!-- View Switcher -->
+    <div class="spacca-view-switcher">
+      <button id="viewGridBtn" class="spacca-view-btn active" data-view="grid" title="عرض شبكة الكروت">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1 1h6v6H1V1zm8 0h6v6H9V1zM1 9h6v6H1V9zm8 0h6v6H9V9z"/></svg>
+        <span data-i18n="view_grid">شبكة الكروت</span>
+      </button>
+      <button id="viewSpaccaBtn" class="spacca-view-btn" data-view="spacca" title="عرض قائمة سباكا">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3h14v2H1V3zm0 4h14v2H1V7zm0 4h14v2H1v-2z"/></svg>
+        <span data-i18n="view_list">قائمة سباكا</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TAG FILTERS -->
+  <div class="spacca-tag-filters reveal reveal-delay-1">
+    <button class="spacca-tag-pill active" data-tag="all" style="display: inline-flex; align-items: center; gap: 8px;"><i class="iconly-boldCategory" style="font-size: 15px;"></i><span data-i18n="tag_all">جميع الأصناف</span></button>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="menu-tabs reveal reveal-delay-2" id="menuTabsContainer"></div>
+
+  <!-- MENU CONTAINER (GRID OR SPACCA LIST VIEW) -->
+  <div id="spaccaMenuContainer" class="spacca-menu-container view-grid"></div>
+
+  <!-- PAGINATION CONTROLS -->
+  <div id="paginationContainer" class="pagination-container" style="display:flex; justify-content:center; align-items:center; gap:10px; margin: 40px auto 20px auto; flex-wrap: wrap;"></div>
+
+  <!-- NO RESULTS MESSAGE -->
+  <div id="spaccaNoResults" class="spacca-no-results" style="display:none;">
+    <span class="no-results-icon">🔍</span>
+    <h3>لم يتم العثور على نتائج</h3>
+    <p>جرب البحث عن كلمة أخرى أو تصفح الأقسام.</p>
+    <button id="resetFiltersBtn" class="btn-outline">إعادة ضبط الفلاتر</button>
+  </div>
+</section>
+
+<!-- ─── BRANCHES & CONTACT ─────────────────── -->
+<section class="section" id="contact" data-section="contact">
+  <div class="section-header" style="text-align: center; margin-bottom: 50px;">
+    <span class="branch-badge" data-i18n="contact_badge">فروعنا</span>
+    <h2 class="section-title reveal" data-i18n="contact_title">فروعنا</h2>
+    <p class="section-subtitle reveal reveal-delay-1" data-i18n="contact_subtitle">تفضلوا بزيارتنا في أحد فروعنا للاستمتاع بأفضل قهوة وأجواء رائعة.</p>
+  </div>
+
+  <div class="branches-grid reveal reveal-delay-2">
+    <!-- Branch 1 -->
+    <div class="branch-card">
+      <div class="branch-card-header">
+        <div class="branch-card-icon"><i class="iconly-boldLocation"></i></div>
+        <h3 class="branch-card-title" data-i18n="branch_nile_corniche">فرع كورنيش النيل : قبل مدخل أبو سليم</h3>
+      </div>
+      <a href="tel:+201101152532" class="branch-card-phone">
+        <i class="iconly-boldCall"></i>
+        <span>01101152532</span>
+      </a>
+    </div>
+
+    <!-- Branch 2 -->
+    <div class="branch-card">
+      <div class="branch-card-header">
+        <div class="branch-card-icon"><i class="iconly-boldLocation"></i></div>
+        <h3 class="branch-card-title" data-i18n="branch_abdelsalam_aref">فرع شارع عبدالسلام عارف : بجوار سامسونج</h3>
+      </div>
+      <a href="tel:+201116975753" class="branch-card-phone">
+        <i class="iconly-boldCall"></i>
+        <span>01116975753</span>
+      </a>
+    </div>
+
+    <!-- Branch 3 -->
+    <div class="branch-card">
+      <div class="branch-card-header">
+        <div class="branch-card-icon"><i class="iconly-boldLocation"></i></div>
+        <h3 class="branch-card-title" data-i18n="branch_sports_club">فرع النادي الرياضي</h3>
+      </div>
+      <a href="tel:+201101141449" class="branch-card-phone">
+        <i class="iconly-boldCall"></i>
+        <span>01101141449</span>
+      </a>
+    </div>
+
+    <!-- Branch 4 -->
+    <div class="branch-card">
+      <div class="branch-card-header">
+        <div class="branch-card-icon"><i class="iconly-boldLocation"></i></div>
+        <h3 class="branch-card-title" data-i18n="branch_east">فرع الشرق</h3>
+      </div>
+      <div class="branch-card-phone" style="opacity: 0.7; cursor: default;">
+        <i class="iconly-boldClose-Square" style="color: #ff5252;"></i>
+        <span data-i18n="branch_no_phone">لا يوجد هاتف للفرع</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ───────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>BREAK OUT</h3>
+      <p>وجهة القهوة الفاخرة والمميزة في بني سويف. اهرُب من الروتين اليومي فنجانًا فنجاناً.</p>
+      <div class="newsletter-form">
+        <input type="email" class="newsletter-input" placeholder="بريدك الإلكتروني" />
+        <button class="newsletter-btn">اشتراك</button>
+      </div>
+      <div class="social-icons">
+        <a href="#" class="social-icon" data-hover title="Facebook" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: inline-block; vertical-align: middle;"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
+        </a>
+        <a href="#" class="social-icon" data-hover title="Instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: inline-block; vertical-align: middle;"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <a href="#" class="social-icon" data-hover title="TikTok" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: inline-block; vertical-align: middle;"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 15.69a6.33 6.33 0 0 0 10.86 4.43 6.22 6.22 0 0 0 1.58-4.13V8.78a8.23 8.23 0 0 0 5.2 1.84V7.19a4.8 4.8 0 0 1-3.05-.5z"/></svg>
+        </a>
+        <a href="#" class="social-icon" data-hover title="WhatsApp" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: inline-block; vertical-align: middle;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.504-5.714-1.463L0 24zm6.59-4.846c1.6.95 3.498 1.45 5.41 1.451 5.428 0 9.845-4.394 9.848-9.799.002-2.618-1.01-5.08-2.853-6.927C17.202 2.031 14.74 1.02 12.13 1.02 6.702 1.02 2.286 5.413 2.284 10.819c-.001 1.96.512 3.878 1.488 5.56l-.996 3.637 3.871-.976zm11.377-5.06c-.312-.156-1.85-.912-2.131-1.014-.283-.102-.488-.153-.693.155-.205.309-.796 1.013-.976 1.218-.18.203-.36.23-.672.074-.312-.156-1.318-.485-2.51-1.548-.928-.827-1.554-1.85-1.737-2.16-.18-.309-.02-.477.136-.632.14-.14.312-.36.468-.54.156-.18.208-.309.312-.513.104-.206.052-.387-.026-.54-.078-.156-.693-1.67-.95-2.285-.25-.605-.503-.522-.693-.532-.18-.01-.385-.01-.591-.01-.205 0-.538.077-.82.384-.282.309-1.077 1.053-1.077 2.568 0 1.516 1.102 2.982 1.256 3.187.154.205 2.17 3.31 5.256 4.64.734.317 1.309.507 1.758.65.738.234 1.41.201 1.94.122.592-.088 1.85-.756 2.112-1.448.263-.692.263-1.285.185-1.408-.078-.123-.283-.205-.595-.361z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer_links">روابط سريعة</h4>
+      <ul class="footer-links">
+        <li><a href="#home" data-i18n="nav_home">الرئيسية</a></li>
+        <li><a href="#menu" data-i18n="nav_menu">المنيو</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4 data-i18n="footer_contact">تواصل معنا</h4>
+      <ul class="footer-links" style="gap:14px;">
+        <li>
+          <a href="tel:+201004741050" style="display: flex; align-items: center; gap: 8px;">
+            <i class="iconly-boldCall" style="color: var(--gold); font-size: 15px;"></i>
+            <span>+20 100 474 1050</span>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:hello@breakoutcafe.eg" style="display: flex; align-items: center; gap: 8px;">
+            <i class="iconly-boldMessage" style="color: var(--gold); font-size: 15px;"></i>
+            <span>hello@breakoutcafe.eg</span>
+          </a>
+        </li>
+        <li>
+          <a href="#contact" style="display: flex; align-items: center; gap: 8px;">
+            <i class="iconly-boldLocation" style="color: var(--gold); font-size: 15px;"></i>
+            <span data-i18n="contact_val_location">بني سويف، مصر</span>
+          </a>
+        </li>
+        <li>
+          <a href="#contact" style="display: flex; align-items: center; gap: 8px;">
+            <i class="iconly-boldTime-Circle" style="color: var(--gold); font-size: 15px;"></i>
+            <span data-i18n="contact_val_hours">يومياً 8:00 صباحاً — 12:00 منتصف الليل</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 <a href="#">بريك أوت كافيه</a>. جميع الحقوق محفوظة. صُنِع بـ ☕ في بني سويف.</p>
+    <p><a href="#">سياسة الخصوصية</a> &nbsp;·&nbsp; <a href="#">شروط الخدمة</a></p>
+  </div>
+</footer>
+
+<!-- ─── FLOATING ACTION BUTTONS ──────────── -->
+
+
+<!-- ─── LIGHTBOX ──────────────────────────── -->
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" aria-label="إغلاق">✕</button>
+  <img id="lightboxImg" src="" alt="معاينة الصور" />
+</div>
+
+<!-- ─── SPACCA ITEM DETAIL MODAL ─────────── -->
+<div id="menuItemModal" class="spacca-modal hidden">
+  <div class="spacca-modal-overlay" onclick="closeModal()"></div>
+  <div class="spacca-modal-card">
+    <button class="spacca-modal-close" aria-label="إغلاق النافذة">&times;</button>
+    <div class="spacca-modal-header" style="display: flex; gap: 18px; align-items: center;">
+      <div class="spacca-modal-image-wrapper" style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 2px solid var(--gold); flex-shrink: 0; background: rgba(255,255,255,0.02);">
+        <img id="modalProductImg" src="" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+      <div class="spacca-modal-emoji" id="modalEmoji" style="display: none;">☕</div>
+      <div class="spacca-modal-meta">
+        <span class="badge badge-popular" id="modalBadge">مفضل</span>
+        <h3 id="modalTitle">اسم المنتج</h3>
+        <div class="menu-stars" id="modalStars">★★★★★</div>
+      </div>
+    </div>
+    <div class="spacca-modal-body">
+      <p class="spacca-modal-desc" id="modalDesc">وصف المنتج...</p>
+      
+      <!-- Size options container -->
+      <div class="spacca-modal-sizes-section" id="modalSizesContainer" style="margin-bottom: 20px; display: none;">
+        <span class="info-label" data-i18n="select_size" style="display:block; margin-bottom:8px; font-weight:bold; font-size:13px; color:var(--text-muted);">اختر الحجم</span>
+        <div class="size-options-grid" id="modalSizeOptions" style="display: flex; gap: 10px;"></div>
+      </div>
+
+      <div class="spacca-modal-info-grid">
+        <div class="spacca-modal-info-item">
+          <span class="info-label" data-i18n="modal_ingredients">🧾 المكونات</span>
+          <span class="info-val" id="modalIngredients">إسبريسو، حليب مبخر</span>
+        </div>
+        <div class="spacca-modal-info-item">
+          <span class="info-label" data-i18n="modal_calories">🔥 السعرات</span>
+          <span class="info-val" id="modalCalories">~180 سعرة</span>
+        </div>
+        <div class="spacca-modal-info-item">
+          <span class="info-label" data-i18n="modal_category">🏷️ التصنيف</span>
+          <span class="info-val" id="modalCategory">قهوة ساخنة</span>
+        </div>
+      </div>
+      <div class="spacca-modal-footer">
+        <div class="spacca-modal-price" id="modalPrice">85 ج.م</div>
+        <button id="modalAddToCartBtn" class="btn-primary" data-i18n="add_to_cart">🛒 أضف إلى السلة</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CART DRAWER ────────────────────────── -->
+<div id="cartModal" class="cart-drawer-modal hidden" style="position: fixed; inset: 0; z-index: 99999; display: none; align-items: center; justify-content: flex-end; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);">
+  <div class="cart-drawer-overlay" onclick="closeCart()" style="position: absolute; inset: 0; cursor: pointer;"></div>
+  <div class="cart-drawer" style="position: relative; width: 100%; max-width: 450px; height: 100%; background: var(--bg-card); box-shadow: -10px 0 30px rgba(0,0,0,0.5); display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+    <div class="cart-drawer-header" style="padding: 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between;">
+      <h3 data-i18n="cart_title_drawer" style="font-family: inherit; font-size: 22px; font-weight: bold; color: var(--gold);">سلة الطلبات</h3>
+      <button onclick="closeCart()" class="cart-drawer-close" aria-label="إغلاق السلة" style="background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer;">✕</button>
+    </div>
+
+    <div id="cartItems" class="cart-drawer-items" style="flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px;"></div>
+
+    <div id="emptyCart" class="cart-drawer-empty" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; text-align: center; gap: 10px;">
+      <div class="empty-cart-icon" style="font-size: 50px; opacity: 0.3;">🛒</div>
+      <p class="empty-cart-text" data-i18n="cart_empty" style="font-weight: bold; color: var(--text-secondary);">السلة فارغة حالياً</p>
+      <p class="empty-cart-subtext" data-i18n="cart_empty_sub" style="font-size: 13px; color: var(--text-muted);">قم بإضافة مجموعة من المشروبات أو الحلويات الفاخرة.</p>
+    </div>
+
+    <div id="cartCheckout" class="cart-drawer-checkout" style="display: none; padding: 24px; border-top: 1px solid var(--border); background: var(--bg-secondary); overflow-y: auto; max-height: 60%;">
+      <div class="cart-total-row" style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; color: var(--text-primary); margin-bottom: 20px;">
+        <span data-i18n="cart_total_label">الإجمالي الصافي</span>
+        <span id="cartTotal">0 ج.م</span>
+      </div>
+
+      <div class="checkout-form-group" style="margin-bottom: 16px;">
+        <label class="checkout-form-label" data-i18n="label_branch" style="display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">اختر الفرع</label>
+        <select id="branchSelect" class="checkout-form-select" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 14px;">
+          <option value="nile_corniche" data-i18n="branch_nile_corniche">فرع كورنيش النيل : قبل مدخل أبو سليم</option>
+          <option value="abdelsalam_aref" data-i18n="branch_abdelsalam_aref">فرع شارع عبدالسلام عارف : بجوار سامسونج</option>
+          <option value="sports_club" data-i18n="branch_sports_club">فرع النادي الرياضي</option>
+          <option value="east" data-i18n="branch_east">فرع الشرق</option>
+        </select>
+      </div>
+
+      <div class="checkout-type-toggle" style="display: flex; gap: 10px; margin-bottom: 16px;">
+        <label class="checkout-type-option" style="flex: 1; cursor: pointer; text-align: center;">
+          <input type="radio" name="orderType" value="pickup" checked onchange="toggleDeliveryFields()" style="display: none;">
+          <div class="toggle-card" style="padding: 10px; border: 1px solid var(--border); border-radius: 12px; font-size: 12px; font-weight: bold; color: var(--text-secondary); transition: all 0.3s ease;">استلام من الفرع</div>
+        </label>
+        <label class="checkout-type-option" style="flex: 1; cursor: pointer; text-align: center;">
+          <input type="radio" name="orderType" value="delivery" onchange="toggleDeliveryFields()" style="display: none;">
+          <div class="toggle-card" style="padding: 10px; border: 1px solid var(--border); border-radius: 12px; font-size: 12px; font-weight: bold; color: var(--text-secondary); transition: all 0.3s ease;">توصيل</div>
+        </label>
+      </div>
+
+      <div id="deliveryFields" class="checkout-delivery-fields" style="max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; gap: 16px;">
+        <div class="checkout-form-group">
+          <label class="checkout-form-label" data-i18n="label_governorate" style="display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">المحافظة</label>
+          <select id="governorateSelect" class="checkout-form-select" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 14px;">
+            <option value="" data-i18n="select_governorate">-- اختر المحافظة --</option>
+            <option value="بني سويف" data-i18n="gov_beni_suef">بني سويف</option>
+            <option value="القاهرة" data-i18n="gov_cairo">القاهرة</option>
+            <option value="الجيزة" data-i18n="gov_giza">الجيزة</option>
+          </select>
+        </div>
+        <div class="checkout-form-group">
+          <label class="checkout-form-label" data-i18n="label_address" style="display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">العنوان بالتفصيل</label>
+          <textarea id="deliveryAddress" class="checkout-form-textarea" placeholder="الشارع، البناية، الشقة..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 14px; resize: none; height: 70px;"></textarea>
+        </div>
+      </div>
+
+      <div class="checkout-form-group" style="margin-bottom: 20px; margin-top: 16px;">
+        <label class="checkout-form-label" data-i18n="label_notes" style="display: block; font-size: 12px; font-weight: bold; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase;">ملاحظات إضافية (اختياري)</label>
+        <textarea id="customerNotes" class="checkout-form-textarea" placeholder="أي طلبات خاصة..." style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-family: inherit; font-size: 14px; resize: none; height: 60px;"></textarea>
+      </div>
+
+      <p id="cartError" class="checkout-error-msg" style="display: none; color: #ff5252; font-size: 12px; font-weight: bold; margin-bottom: 12px;"></p>
+
+      <button onclick="sendOrder()" class="checkout-submit-btn" data-i18n="btn_submit_order" style="width: 100%; padding: 14px; background: var(--accent-gradient); border: none; border-radius: 12px; color: var(--bg-primary); font-family: inherit; font-size: 15px; font-weight: bold; cursor: pointer; transition: var(--transition);">
+        إرسال وتأكيد الطلب عبر واتساب
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PHONE VERIFICATION MODAL ───────────── -->
+<div id="phoneModal" class="phone-modal-container hidden" style="position: fixed; inset: 0; z-index: 999999; display: none; align-items: center; justify-content: center; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); padding: 16px; opacity: 0; transition: opacity 0.3s ease;">
+  <div class="phone-modal-overlay" onclick="closePhoneModal(true)" style="position: absolute; inset: 0;"></div>
+  <div class="phone-modal-card" style="position: relative; background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 32px; max-width: 400px; width: 100%; display: flex; flex-direction: column; gap: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); transform: translateY(30px); transition: transform 0.3s ease, opacity 0.3s ease;">
+    <h3 data-i18n="modal_phone_title" style="font-family: inherit; font-size: 20px; font-weight: bold; color: var(--gold); margin: 0; text-align: center;">بيانات التسليم والاتصال</h3>
+    <div class="phone-modal-body" style="display: flex; flex-direction: column; gap: 14px;">
+      <div class="checkout-form-group">
+        <input type="text" id="customerNameInput" placeholder="الاسم بالكامل *" class="phone-modal-input" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); font-family: inherit; font-size: 14px;" />
+      </div>
+      <div class="checkout-form-group">
+        <input type="tel" id="customerPhoneInput" placeholder="رقم الهاتف المحمول *" class="phone-modal-input" required style="width: 100%; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-secondary); color: var(--text-primary); font-family: inherit; font-size: 14px;" />
+      </div>
+      <p id="phoneErrorMsg" class="phone-modal-error" style="display: none; color: #ff5252; font-size: 11px; font-weight: bold; margin: 0;"></p>
+    </div>
+    <div class="phone-modal-footer" style="display: flex; gap: 12px; margin-top: 10px;">
+      <button onclick="closePhoneModal(true)" class="phone-modal-btn cancel" data-i18n="btn_cancel" style="flex: 1; padding: 12px; background: none; border: 1px solid var(--border); border-radius: 12px; color: var(--text-secondary); font-family: inherit; font-size: 14px; font-weight: bold; cursor: pointer; transition: var(--transition);">إلغاء</button>
+      <button onclick="confirmPhoneAndSend()" class="phone-modal-btn confirm" data-i18n="btn_confirm_send" style="flex: 1; padding: 12px; background: var(--accent-gradient); border: none; border-radius: 12px; color: var(--bg-primary); font-family: inherit; font-size: 14px; font-weight: bold; cursor: pointer; transition: var(--transition);">تأكيد وإرسال</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SCRIPTS ──────────────────────────── -->
+<script src="assets/js/main.js"></script>
+</body>
+</html>
